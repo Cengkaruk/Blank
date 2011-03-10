@@ -25,12 +25,11 @@ class BlankInstall:
                     exit(1)
 
             info = OnPackage.show_info(on, pkg)
-                
-            print _('\nSoftware Name : %s') %info['Name']
+
+            print _('\nSoftware Name : %s') %info['Package']
             print _('Software Version : %s') %info['Version']
-            print _('Architecture : %s') %info['Arch']
-            print _('Information : %s') %info['Desc']
-            print _('%s\n') %info['LongDesc']
+            print _('Architecture : %s') %info['Architecture']
+            print _('Information : %s\n') %info['Description']
 		
             try:
                 comfirm = raw_input(_('Do you want to continue [Y/n]? '))

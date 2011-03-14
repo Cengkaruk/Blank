@@ -46,30 +46,26 @@ class BlankInstall:
                 print _('Aborted.')
                 exit(1)
 
-    def check(self, pkgs):
-        for pkg in pkgs:
-            on = OnPackage()
-            try:
-                extract = on.extract(pkg)
-            except:
-                exit(1)
-
-            try:
-                checksums = on.check_sums(pkg, extract)
-            except:
-                exit(1)
-
-            for sum_key in checksums.keys():
-                print _('%s Checksum is %s') %sum_key %checksums[sum_key]
-
     def commit_install(self, pkg):		
         on = OnPackage()
         extract = on.extract(pkg)
-        checksums = on.check_sums(pkg, extract)
-        versions = on.check_version_all(pkg, extract)
+#        checksums = on.check_sums(pkg, extract)
+#        versions = on.check_version_all(pkg, extract)
+
+#        for sum_key in checksums.keys():
+#            print _('%s Checksum is %s') %sum_key
+#            if not checksums[sum_key]:
+#                print _("File corrupt. Aborted.")
+#                exit(1)
 
         on.mark_install(pkg, extract) 
         on.commit_install()
+
+    def check_root(self):
+        if not os.geteuid()==0:
+            print _("Only root can run this program")
+            exit(1)
+
 	
 def main():
     usage = _('usage: blank [options] {install | remove | check} package.on file')
@@ -87,6 +83,8 @@ def main():
 
     command = args[0]
     am = BlankInstall()
+
+    am.check_root()
 
     if command == 'install':
         am.install(args[1:])
